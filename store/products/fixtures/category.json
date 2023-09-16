@@ -1,0 +1,50 @@
+[
+  {
+    "model": "products.productcategory",
+    "pk": 1,
+    "fields": {
+      "name": "Одежда",
+      "description": "Описание одежды"
+    }
+  },
+  {
+    "model": "products.productcategory",
+    "pk": 2,
+    "fields": {
+      "name": "Обувь",
+      "description": "Описание категории обувь"
+    }
+  },
+  {
+    "model": "products.productcategory",
+    "pk": 3,
+    "fields": {
+      "name": "Сумки и рюкзаки",
+      "description": "Описание каких-то сумок, рюкзаков, барсеток"
+    }
+  },
+  {
+    "model": "products.productcategory",
+    "pk": 5,
+    "fields": {
+      "name": "Новинки",
+      "description": ""
+    }
+  },
+  {
+    "model": "products.productcategory",
+    "pk": 6,
+    "fields": {
+      "name": "Аксессуары",
+      "description": ""
+    }
+  },
+  {
+    "model": "products.productcategory",
+    "pk": 7,
+    "fields": {
+      "name": "Подарки",
+      "description": ""
+    }
+  }
+]
