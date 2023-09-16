@@ -1,5 +1,5 @@
 """
-ASGI config for store project.
+ASGI config for store123 project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
