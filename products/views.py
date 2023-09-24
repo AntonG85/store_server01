@@ -6,7 +6,7 @@ from slugify import slugify
 # Create your views here.
 
 def index(request):
-    context = {'title': 'START PAGE', 'message': 'HELLO блин WORLD!'}
+    context = {'title': 'START PAGE', 'message': 'HELLO WORLD!'}
     return render(request, 'products/index.html', context)
 
 def products(request):
