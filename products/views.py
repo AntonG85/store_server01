@@ -4,6 +4,7 @@ from products.models import ProductCategory, Product, Basket
 from users.models import User
 from slugify import slugify
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 
 # Create your views here.
 
@@ -11,20 +12,25 @@ def index(request):
     context = {'title': 'START PAGE', 'message': 'HELLO WORLD!'}
     return render(request, 'products/index.html', context)
 
-def products(request):
+def products(request, category_id=None, page_number=1):
 
     # for prod in Product.objects.all():
     #     prod.slug = slugify(prod.name)
     #     prod.save()
-    #
     # for prod in ProductCategory.objects.all():
     #     prod.slug = slugify(prod.name)
     #     prod.save()
 
+    products = Product.objects.filter(category_id=category_id) if category_id else Product.objects.all()
+    per_page = 2
+    paginator = Paginator(products, per_page)
+    products_paginator = paginator.page(page_number)
+
     context = {
         'title' : 'Продукты',
-        'products' : Product.objects.all(),
+        'products' : products_paginator,
         'categorys' : ProductCategory.objects.all(),
+        'cat_id': category_id,
     }
     return render(request, 'products/products.html', context)
 
