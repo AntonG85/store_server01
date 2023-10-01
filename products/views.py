@@ -12,19 +12,19 @@ def index(request):
     context = {'title': 'START PAGE', 'message': 'HELLO WORLD!'}
     return render(request, 'products/index.html', context)
 
-def products(request, category_id=None, page_number=1):
-
-    # for prod in Product.objects.all():
-    #     prod.slug = slugify(prod.name)
-    #     prod.save()
-    # for prod in ProductCategory.objects.all():
-    #     prod.slug = slugify(prod.name)
-    #     prod.save()
-
-    products = Product.objects.filter(category_id=category_id) if category_id else Product.objects.all()
+def products(request, category_id=None):
     per_page = 2
+    products = Product.objects.filter(category_id=category_id) if category_id else Product.objects.all()
+    page = request.GET.get('page', 1)
+
+    if not isinstance(page, int):
+        if page.isdigit():
+            page = int(page)
+        else:
+            page = 1
+
     paginator = Paginator(products, per_page)
-    products_paginator = paginator.page(page_number)
+    products_paginator = paginator.page(page)
 
     context = {
         'title' : 'Продукты',
@@ -47,6 +47,7 @@ def product(request, product_slug: str):
 
 @login_required
 def basket_add(request, product_id):
+
     product = Product.objects.get(id=product_id)
     baskets = Basket.objects.filter(user=request.user, product=product)
     if not baskets.exists():
