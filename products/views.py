@@ -1,41 +1,37 @@
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
-from store.wsgi import *
 from products.models import ProductCategory, Product, Basket
-from users.models import User
 from slugify import slugify
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
 
-# Create your views here.
+from django.views.generic.base import TemplateView
+from django.views.generic.list import ListView
 
-def index(request):
-    context = {'title': 'START PAGE', 'message': 'HELLO WORLD!'}
-    return render(request, 'products/index.html', context)
+class IndexView(TemplateView):
+    template_name = 'products/index.html'
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data()
+        context['title'] = 'START PAGE'
+        return context
 
-def products(request, category_id=None):
-    per_page = 2
-    products = Product.objects.filter(category_id=category_id) if category_id else Product.objects.all()
-    page = request.GET.get('page', 1)
+class ProductsListView(ListView):
+    model = Product
+    template_name = 'products/products.html'
+    paginate_by = 2
 
-    if not isinstance(page, int):
-        if page.isdigit():
-            page = int(page)
-        else:
-            page = 1
+    def get_queryset(self):
+        queryset = super(ProductsListView, self).get_queryset()
+        category_id = self.kwargs.get('category_id')
+        return queryset.filter(category_id=category_id) if category_id else queryset
 
-    paginator = Paginator(products, per_page)
-    products_paginator = paginator.page(page)
-
-    context = {
+    def get_context_data(self, **kwargs):
+        context = super(ProductsListView, self).get_context_data()
+        context.update({
         'title' : 'Продукты',
-        'products' : products_paginator,
-        'categorys' : ProductCategory.objects.all(),
-        'cat_id': category_id,
-    }
-    return render(request, 'products/products.html', context)
+        'cat_id': self.kwargs.get('category_id'),
+        'categorys' : ProductCategory.objects.all()})
+        return context
 
 def product(request, product_slug: str):
-
     prod = get_object_or_404(Product, slug=product_slug)
 
     context = {
