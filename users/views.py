@@ -6,33 +6,30 @@ from users.models import User
 from products.models import Basket
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.views import LoginView
+from django.contrib.messages.views import SuccessMessageMixin
+from common.views import TitleMixin
 
 
-class UserLoginView(LoginView):
+class UserLoginView(TitleMixin, LoginView):
     template_name = 'users/login.html'
     form_class = UserLoginForm
+    title = 'Страница авторизации'
 
 
-
-
-class UserRegistrationView(CreateView):
+class UserRegistrationView(TitleMixin, SuccessMessageMixin, CreateView):
     model = User
     template_name = 'users/registration.html'
     form_class = UserRegistrationForm
     success_url = reverse_lazy('users:login')
-
-    def get_context_data(self, **kwargs):
-        context = super(UserRegistrationView, self).get_context_data()
-        context.update({
-        'title': 'Store - Регистрация'
-        })
-        return context
+    success_message = 'Регистрация прошла успешно!'
+    title = 'Страница регистрации'
 
 
-class UserProfileView(UpdateView):
+class UserProfileView(TitleMixin, UpdateView):
     model = User
     form_class = UserProfileForm
     template_name = 'users/profile.html'
+    title = 'Store - Страница пользователя'
 
     def get_success_url(self):
         return reverse_lazy('users:profile', args=(self.object.id,))
@@ -40,10 +37,10 @@ class UserProfileView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super(UserProfileView, self).get_context_data()
         context.update({
-            'title': 'Store - Страница пользователя',
             'baskets': Basket.objects.filter(user=self.object)
-        })
+                    })
         return context
+
 
 # def login(request):
 #     if request.method == 'POST':
