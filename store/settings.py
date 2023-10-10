@@ -26,6 +26,9 @@ SECRET_KEY = 'django-insecure-t64$m5766g4ig)*#snfjw98hn&w5^(=!&j2fm$4q#&hc$+!(_w
 DEBUG = True
 
 ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ['*']
+
+DOMAIN_NAME = 'http://localhost:8000'
 
 
 # Application definition
@@ -138,4 +141,15 @@ AUTH_USER_MODEL = 'users.User'
 LOGIN_URL = '/users/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+#sending email
+# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend" # настройки для симуляции почты через консоль
+#   store-password01 cgaozqrfmibmdbsl
+
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = 'store-server01@yandex.ru'
+EMAIL_HOST_PASSWORD = 'cgaozqrfmibmdbsl'
+
 
