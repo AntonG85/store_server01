@@ -1,8 +1,8 @@
-from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.core.mail import send_mail
+from django.db import models
 from django.urls import reverse
-from django.conf import settings
 from django.utils.timezone import now
 
 import store.settings
@@ -15,7 +15,7 @@ class User(AbstractUser):
 
 
 class EmailVerification(models.Model):
-    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     code = models.UUIDField(unique=True)
     created = models.DateTimeField(auto_now_add=True)
     expiration = models.DateTimeField()
@@ -24,7 +24,7 @@ class EmailVerification(models.Model):
         return f'EmailVerification object for {self.user.email}'
 
     def send_verification_email(self):
-        link = reverse('users:email_verification', kwargs={'email':self.user.email, 'code':self.code})
+        link = reverse('users:email_verification', kwargs={'email': self.user.email, 'code': self.code})
         verification_link = f'{settings.DOMAIN_NAME}{link}'
         subject = f'Подтверждение почты для {self.user.username}'
         message = 'Для подтверждения учетной записи {} перейдите по ссылке: {}'.format(
@@ -41,4 +41,3 @@ class EmailVerification(models.Model):
 
     def is_expired(self):
         return now() > self.expiration
-

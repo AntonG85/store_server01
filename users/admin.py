@@ -1,8 +1,8 @@
 from django.contrib import admin
-from users.models import User, EmailVerification
-from products.admin import BasketAdmin
 
-# admin.site.register(User)
+from products.admin import BasketAdmin
+from users.models import EmailVerification, User
+
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
@@ -15,4 +15,4 @@ class UserAdmin(admin.ModelAdmin):
 class EmailVerificationAdmin(admin.ModelAdmin):
     list_display = ('user', 'created', 'expiration')
     fields = ('user', 'created', 'expiration', 'code')
-    readonly_fields = ('created',)
+    readonly_fields = ('created', )

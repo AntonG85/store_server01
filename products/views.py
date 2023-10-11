@@ -1,20 +1,16 @@
-from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
-from products.models import ProductCategory, Product, Basket
-from slugify import slugify
 from django.contrib.auth.decorators import login_required
-
+from django.shortcuts import HttpResponseRedirect, get_object_or_404, render
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
+
 from common.views import TitleMixin
+from products.models import Basket, Product, ProductCategory
+
 
 class IndexView(TitleMixin, TemplateView):
     template_name = 'products/index.html'
     title = 'START PAGE'
 
-    # def get_context_data(self, **kwargs):
-    #     context = super(IndexView, self).get_context_data()
-    #     context['title'] = 'START PAGE'
-    #     return context
 
 class ProductsListView(TitleMixin, ListView):
     model = Product
@@ -30,19 +26,22 @@ class ProductsListView(TitleMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(ProductsListView, self).get_context_data()
         context.update({
-        'cat_id': self.kwargs.get('category_id'),
-        'categorys' : ProductCategory.objects.all()})
+            'cat_id': self.kwargs.get('category_id'),
+            'categorys': ProductCategory.objects.all(),
+            })
         return context
+
 
 def product(request, product_slug: str):
     prod = get_object_or_404(Product, slug=product_slug)
 
     context = {
-        'title' : prod.slug,
-        'product' : prod,
-        'categorys' : ProductCategory.objects.all(),
+        'title': prod.slug,
+        'product': prod,
+        'categorys': ProductCategory.objects.all(),
     }
     return render(request, 'products/product_desc.html', context)
+
 
 @login_required
 def basket_add(request, product_id):
@@ -58,9 +57,9 @@ def basket_add(request, product_id):
 
     return HttpResponseRedirect(redirect_to=request.META['HTTP_REFERER'])
 
+
 @login_required
-def basket_remove (request, basket_id):
+def basket_remove(request, basket_id):
     basket = Basket.objects.get(id=basket_id)
     basket.delete()
     return HttpResponseRedirect(redirect_to=request.META['HTTP_REFERER'])
-
