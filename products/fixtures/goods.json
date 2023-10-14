@@ -58,5 +58,31 @@
       "image": "Products_images/Black-Dr-Martens-shoes.png",
       "category": 2
     }
+  },
+  {
+    "model": "products.product",
+    "pk": 6,
+    "fields": {
+      "name": "Бусы",
+      "description": "Какие были, такие и продаём",
+      "price": "200.00",
+      "quantity": 30,
+      "image": "Products_images/i_1.webp",
+      "category": 6,
+      "slug": ""
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 7,
+    "fields": {
+      "name": "Кепка NY",
+      "description": "Классическая кепка",
+      "price": "1500.00",
+      "quantity": 5,
+      "image": "Products_images/i_2.webp",
+      "category": 5,
+      "slug": ""
+    }
   }
 ]
