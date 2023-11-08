@@ -30,12 +30,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     # 'django.contrib.sites',
-
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.github',
-
     'products',
     'users',
 ]

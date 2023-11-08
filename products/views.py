@@ -9,7 +9,7 @@ from products.models import Basket, Product, ProductCategory
 
 class IndexView(TitleMixin, TemplateView):
     template_name = 'products/index.html'
-    title = 'START PAGE'
+    title = 'STORE'
 
 
 class ProductsListView(TitleMixin, ListView):
